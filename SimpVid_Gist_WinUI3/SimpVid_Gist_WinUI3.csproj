@@ -13,15 +13,16 @@
     <EnableMsixTooling>true</EnableMsixTooling>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+  <ItemGroup>
+    <None Remove="Assets\App.ico" />
+  </ItemGroup>
 
   <ItemGroup>
-    <Content Include="0AC69FFF-1BF8-4C05-B847-7DED3F73E83B_.ico" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\Square150x150Logo.scale-200.png" />
     <Content Include="Assets\Square44x44Logo.scale-200.png" />
     <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
-    <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
   </ItemGroup>
 
@@ -59,6 +60,5 @@
     <PublishTrimmed Condition="'$(Configuration)' == 'Debug'">False</PublishTrimmed>
     <PublishTrimmed Condition="'$(Configuration)' != 'Debug'">True</PublishTrimmed>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <ApplicationIcon>0AC69FFF-1BF8-4C05-B847-7DED3F73E83B_.ico</ApplicationIcon>
   </PropertyGroup>
 </Project>

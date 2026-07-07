@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using YoutubeExplode;
 using YoutubeExplode.Videos.ClosedCaptions;
+using Microsoft.UI.Windowing;
 
 namespace SimpVid_Gist_WinUI3
 {
@@ -20,8 +21,33 @@ namespace SimpVid_Gist_WinUI3
         {
             this.InitializeComponent();
 
-            // 设置 WinUI 3 窗口初始大小
             SetWindowSize(600, 800);
+            SetWindowIcon("Assets/App.ico");
+        }
+
+        /// <summary>
+        /// 设置窗口图标
+        /// </summary>
+        private void SetWindowIcon(string iconPath)
+        {
+            // 1. 获取当前 WinUI 3 窗口的句柄 (HWND)
+            var windowHandle = WinRT.Interop.WindowNative.GetWindowHandle(this);
+
+            // 2. 获取与其关联的 AppWindow 实例
+            var windowId = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(windowHandle);
+            var appWindow = AppWindow.GetFromWindowId(windowId);
+
+            if (appWindow != null)
+            {
+                // 3. 两种方式设置：可以使用绝对路径加载 ico 文件
+                // 结合 AppDomain.CurrentDomain.BaseDirectory 获取打包后的绝对路径
+                string fullPath = System.IO.Path.Combine(AppContext.BaseDirectory, iconPath);
+
+                if (System.IO.File.Exists(fullPath))
+                {
+                    appWindow.SetIcon(fullPath);
+                }
+            }
         }
 
         /// <summary>
