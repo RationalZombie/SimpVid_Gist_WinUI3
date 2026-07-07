@@ -1,3 +1,12 @@
+这回编译其实已经成功了（`Build succeeded. 0 Error(s)`）！目前的报错属于 **PowerShell 的语法小脾气**。
+
+在 PowerShell 中，多行换行符（反引号 ```）后面如果直接加了注释或者多了个空格，换行就会失效。这导致 GitHub Actions 误把 `/p:PublishTrimmed=false` 当成了一条独立的系统命令去执行，从而报了找不到命令的错误。
+
+为了彻底根除这种排版引起的玄学报错，我们把编译命令里的**行尾内联注释全部清理干净**。
+
+这是修正后的完整 GitHub Actions 配置文件：
+
+```yaml
 name: WinUI 3 Production Release
 
 # 1. 触发条件：当你在 GitHub 上创建一个新的 Release 时触发
@@ -29,7 +38,7 @@ jobs:
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v2
 
-    # 4. 还原 NuGet 依赖（显式指定非独立发布和关闭裁剪，对齐上下文）
+    # 4. 还原 NuGet 依赖
     - name: Restore Dependencies
       run: |
         msbuild SimpVid_Gist_WinUI3/SimpVid_Gist_WinUI3.csproj `
@@ -41,7 +50,7 @@ jobs:
           /p:SelfContained=false `
           /p:PublishTrimmed=false
 
-    # 5. 编译并发布 WinUI 3 项目（采用框架依赖模式发布）
+    # 5. 编译并发布 WinUI 3 项目（移除了所有可能干扰换行的行尾注释）
     - name: Build and Publish WinUI 3 App
       run: |
         msbuild SimpVid_Gist_WinUI3/SimpVid_Gist_WinUI3.csproj `
@@ -50,8 +59,8 @@ jobs:
           /p:Platform=x64 `
           /p:RuntimeIdentifier=win-x64 `
           /p:PublishReadyToRun=true `
-          /p:SelfContained=false ` ` # 👈 设为 false，生成依赖外部运行时的轻量包
-          /p:PublishTrimmed=false `   # 👈 设为 false，解决之前的体积优化报错
+          /p:SelfContained=false `
+          /p:PublishTrimmed=false `
           /p:PublishDir=../publish/
 
     # 6. 将发布出来的文件夹打包为 ZIP
@@ -69,3 +78,5 @@ jobs:
         asset_name: SimpVid_Gist_WinUI3_x64.zip
         tag: ${{ github.event.release.tag_name }}
         overwrite: true
+
+```
