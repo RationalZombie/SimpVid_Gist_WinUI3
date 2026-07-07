@@ -32,13 +32,13 @@ jobs:
     # 4. 还原 NuGet 依赖（针对 WinUI 3 优化，指定 x64 架构）
     - name: Restore Dependencies
       run: |
-        nuget restore SimpVid_Gist.sln
+        nuget restore SimpVid_Gist_WinUI3.sln
 
     # 5. 编译并发布 WinUI 3 项目
-    # 注意：这里假设你的 WinUI 3 项目文件夹/项目名变更为 SimpVid_Gist
+    # 注意：这里假设你的 WinUI 3 项目文件夹/项目名变更为 SimpVid_Gist_WinUI3
     - name: Build and Publish WinUI 3 App
       run: |
-        msbuild SimpVid_Gist/SimpVid_Gist.csproj `
+        msbuild SimpVid_Gist_WinUI3/SimpVid_Gist_WinUI3.csproj `
           /p:Configuration=Release `
           /p:Platform=x64 `
           /p:RuntimeIdentifier=win-x64 `
