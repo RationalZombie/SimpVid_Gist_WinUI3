@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window
+    x:Class="SimpVid_Gist_WinUI3.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:SimpVid_Gist_WinUI3"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="SimpVid_Gist_WinUI3">
+
+    <Window.SystemBackdrop>
+        <MicaBackdrop />
+    </Window.SystemBackdrop>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="16" Spacing="8">
+            <TextBlock FontSize="24" Margin="0,0,0,4" TextWrapping="Wrap" FontWeight="Bold">SimpVid Gist</TextBlock>
+            <TextBlock Margin="0,0,0,12" TextWrapping="Wrap" Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}">
+                Extract and summarize YouTube video transcripts. Provide an API key to also generate a summary.
+            </TextBlock>
+
+            <TextBlock TextWrapping="Wrap" FontWeight="SemiBold">Video URL or ID</TextBlock>
+            <TextBox x:Name="UrlTextBox" />
+
+            <TextBlock Margin="0,4,0,0" TextWrapping="Wrap" FontWeight="SemiBold">AI Base URL (API Endpoint)</TextBlock>
+            <TextBox x:Name="BaseUrlTextBox" />
+
+            <TextBlock Margin="0,4,0,0" TextWrapping="Wrap" FontWeight="SemiBold">Model Name</TextBlock>
+            <TextBox x:Name="ModelTextBox" Text=""/>
+
+            <TextBlock Margin="0,4,0,0" TextWrapping="Wrap" FontWeight="SemiBold">AI API key</TextBlock>
+            <PasswordBox x:Name="ApiKeyTextBox" PasswordChar="*"/>
+
+            <Button Background="#87CEEB" Foreground="Black" x:Name="ExtractButton" Margin="0,12,0,4" HorizontalAlignment="Stretch" Click="ExtractButton_Click">Extract Transcript</Button>
+            <Button Background="#EE82EE" Foreground="Black" x:Name="SummarizeButton" Margin="0,0,0,12" HorizontalAlignment="Stretch" Click='SummarizeButton_Click' IsEnabled="False">Summarize Transcript</Button>
+
+            <TextBlock TextWrapping="Wrap" FontWeight="Bold">Transcript</TextBlock>
+            <TextBox x:Name="TranscriptTextBox" MinHeight="100" IsReadOnly="True" AcceptsReturn="True" TextWrapping="Wrap"/>
+
+            <TextBlock Margin="0,4,0,0" TextWrapping="Wrap" FontWeight="Bold">Summary</TextBlock>
+            <TextBox x:Name="SummaryTextBox" MinHeight="100" IsReadOnly="True" AcceptsReturn="True" TextWrapping="Wrap"/>
+        </StackPanel>
+    </ScrollViewer>
+</Window>
