@@ -29,7 +29,7 @@ jobs:
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v2
 
-    # 4. 【核心修正】改用 MSBuild 还原，并显式带上 R2R 参数，逼迫 NuGet 下载对应的优化包
+    # 4. 还原 NuGet 依赖（显式指定非独立发布和关闭裁剪，对齐上下文）
     - name: Restore Dependencies
       run: |
         msbuild SimpVid_Gist_WinUI3/SimpVid_Gist_WinUI3.csproj `
@@ -37,9 +37,11 @@ jobs:
           /p:Configuration=Release `
           /p:Platform=x64 `
           /p:RuntimeIdentifier=win-x64 `
-          /p:PublishReadyToRun=true
+          /p:PublishReadyToRun=true `
+          /p:SelfContained=false `
+          /p:PublishTrimmed=false
 
-    # 5. 编译并发布 WinUI 3 项目（参数与还原保持严格一致）
+    # 5. 编译并发布 WinUI 3 项目（采用框架依赖模式发布）
     - name: Build and Publish WinUI 3 App
       run: |
         msbuild SimpVid_Gist_WinUI3/SimpVid_Gist_WinUI3.csproj `
@@ -48,6 +50,8 @@ jobs:
           /p:Platform=x64 `
           /p:RuntimeIdentifier=win-x64 `
           /p:PublishReadyToRun=true `
+          /p:SelfContained=false ` ` # 👈 设为 false，生成依赖外部运行时的轻量包
+          /p:PublishTrimmed=false `   # 👈 设为 false，解决之前的体积优化报错
           /p:PublishDir=../publish/
 
     # 6. 将发布出来的文件夹打包为 ZIP
