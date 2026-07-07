@@ -29,21 +29,26 @@ jobs:
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v2
 
-    # 4. 【修改点】使用现代 dotnet restore 并指定目标架构，以此下载 R2R 优化所需的运行时包
+    # 4. 【核心修正】改用 MSBuild 还原，并显式带上 R2R 参数，逼迫 NuGet 下载对应的优化包
     - name: Restore Dependencies
       run: |
-        dotnet restore SimpVid_Gist_WinUI3/SimpVid_Gist_WinUI3.csproj -r win-x64
+        msbuild SimpVid_Gist_WinUI3/SimpVid_Gist_WinUI3.csproj `
+          /t:Restore `
+          /p:Configuration=Release `
+          /p:Platform=x64 `
+          /p:RuntimeIdentifier=win-x64 `
+          /p:PublishReadyToRun=true
 
-    # 5. 【修改点】编译并发布 WinUI 3 项目（显式开启 PublishReadyToRun）
+    # 5. 编译并发布 WinUI 3 项目（参数与还原保持严格一致）
     - name: Build and Publish WinUI 3 App
       run: |
         msbuild SimpVid_Gist_WinUI3/SimpVid_Gist_WinUI3.csproj `
+          /t:Publish `
           /p:Configuration=Release `
           /p:Platform=x64 `
           /p:RuntimeIdentifier=win-x64 `
           /p:PublishReadyToRun=true `
-          /p:PublishDir=../publish/ `
-          /t:Publish
+          /p:PublishDir=../publish/
 
     # 6. 将发布出来的文件夹打包为 ZIP
     - name: Archive Build Artifacts
