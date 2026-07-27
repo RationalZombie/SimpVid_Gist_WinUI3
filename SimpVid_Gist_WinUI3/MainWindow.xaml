@@ -22,51 +22,43 @@
         <Grid Grid.Row="0">
             <Grid x:Name="DragAreaGrid" Background="Transparent"/>
 
-            <Grid x:Name="CustomTitleBar" Background="Transparent">
+            <Grid x:Name="CustomTitleBar">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Text="SimpVid Gist" 
-                   Margin="16,0,0,0" 
-                   FontSize="24" 
-                   FontWeight="Bold" 
-                   VerticalAlignment="Center" 
-                   IsHitTestVisible="False"/>
+                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="16,0,0,0">
+                    <TextBlock Text="SimpVid Gist" FontSize="24" FontWeight="Bold" VerticalAlignment="Center"/>
+                    <TextBlock Text="v3" Foreground="Gray" FontSize="14" Margin="6,0,0,0" VerticalAlignment="Bottom"/>
+                </StackPanel>
 
-                <StackPanel x:Name="RightControlsPanel" 
-                    Orientation="Horizontal" 
-                    Grid.Column="1" 
-                    VerticalAlignment="Center" 
-                    Margin="0,0,10,0">
-                    <Button x:Name="Button_Save" Content="Save" Click="Button_Save_Click" Background="LightSeaGreen" Foreground="White" CornerRadius="15" Margin="0,0,10,0"/>
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,10,0" Spacing="8">
+                    <Button x:Name="Button_Save" Content="Export" Background="LightSeaGreen" Foreground="White" Height="40" CornerRadius="20" Click="Button_Save_Click"/>
                 </StackPanel>
             </Grid>
         </Grid>
+
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-            <StackPanel Margin="16">
-                <TextBlock Margin="0,0,0,20" TextWrapping="Wrap">
-                    Extract and summarize YouTube video transcripts. Provide an API key to also generate a summary. The default language is English
+            <StackPanel Margin="16" Spacing="10">
+                <TextBlock TextWrapping="Wrap" Margin="0,0,0,10">
+                    Extract and summarize YouTube video transcripts. Provide an API key to also generate a summary.
                 </TextBlock>
 
-                <TextBlock Margin="0,0,0,10" TextWrapping="Wrap" FontWeight="SemiBold">Video URL or ID</TextBlock>
-                <TextBox x:Name="UrlTextBox"/>
+                <TextBlock Text="Video URL or ID" FontWeight="SemiBold"/>
+                <TextBox x:Name="UrlTextBox" TextWrapping="Wrap"/>
 
-                <TextBlock Margin="0,10,0,5" TextWrapping="Wrap" FontWeight="SemiBold">AI Base URL (API Endpoint)</TextBlock>
-                <TextBox x:Name="BaseUrlTextBox"/>
-
-                <TextBlock Margin="0,10,0,5" TextWrapping="Wrap" FontWeight="SemiBold">Model Name</TextBlock>
-                <TextBox x:Name="ModelTextBox"/>
-
-                <TextBlock Margin="0,10,0,5" TextWrapping="Wrap" FontWeight="SemiBold">AI API key</TextBlock>
-                <PasswordBox x:Name="ApiKeyTextBox" Height="32" PasswordChar="*"/>
-
-                <Button x:Name="SaveButton" 
-                        Content="Save AI Base URL and Model Name" 
-                        Margin="0,20,0,0" 
-                        HorizontalAlignment="Center" 
-                        Click="SaveButton_Click"/>
+                <TextBlock Text="Subtitle Language" FontWeight="SemiBold" Margin="0,5,0,0"/>
+                <ComboBox x:Name="LanguageCodeComboBox" SelectedIndex="0" HorizontalAlignment="Stretch">
+                    <ComboBoxItem Content="English (en)" Tag="en"/>
+                    <ComboBoxItem Content="Simplified Chinese (zh-Hans)" Tag="zh-Hans"/>
+                    <ComboBoxItem Content="Traditional Chinese (zh-Hant)" Tag="zh-Hant"/>
+                    <ComboBoxItem Content="Japanese (ja)" Tag="ja"/>
+                    <ComboBoxItem Content="Korean (ko)" Tag="ko"/>
+                    <ComboBoxItem Content="Spanish (es)" Tag="es"/>
+                    <ComboBoxItem Content="French (fr)" Tag="fr"/>
+                    <ComboBoxItem Content="Russian (ru)" Tag="ru"/>
+                </ComboBox>
 
                 <Button x:Name="ExtractButton" 
                         Content="Extract Transcript" 
@@ -76,20 +68,41 @@
                         HorizontalAlignment="Center" 
                         Click="ExtractButton_Click"/>
 
-                <Button x:Name="SummarizeButton" 
-                        Content="Summarize Transcript" 
-                        Background="Violet" 
-                        Foreground="Black"
-                        Margin="0,0,0,20" 
-                        HorizontalAlignment="Center" 
-                        IsEnabled="False" 
-                        Click="SummarizeButton_Click"/>
-
-                <TextBlock Margin="0,0,0,10" TextWrapping="Wrap" FontWeight="Bold">Transcript</TextBlock>
+                <TextBlock Text="Transcript" FontWeight="SemiBold"/>
                 <TextBox x:Name="TranscriptTextBox" MinHeight="100" IsReadOnly="True" AcceptsReturn="True" TextWrapping="Wrap"/>
 
-                <TextBlock Margin="0,10,0,10" TextWrapping="Wrap" FontWeight="Bold">Summary</TextBlock>
-                <TextBox x:Name="SummaryTextBox" MinHeight="100" IsReadOnly="True" AcceptsReturn="True" TextWrapping="Wrap"/>
+                <Border BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="8" Padding="12" Margin="0,20,0,0">
+                    <StackPanel Spacing="10">
+                        <TextBlock Text="Summarization" FontSize="16" FontWeight="Bold" Margin="0,0,0,5"/>
+
+                        <TextBlock Text="AI Base URL (API Endpoint)" FontWeight="SemiBold"/>
+                        <TextBox x:Name="BaseUrlTextBox" TextWrapping="Wrap"/>
+
+                        <TextBlock Text="Model Name" FontWeight="SemiBold"/>
+                        <TextBox x:Name="ModelTextBox" TextWrapping="Wrap"/>
+
+                        <TextBlock Text="AI API key" FontWeight="SemiBold"/>
+                        <PasswordBox x:Name="ApiKeyTextBox"/>
+
+                        <Button x:Name="SaveButton" 
+                                Content="Save AI Base URL and Model Name" 
+                                Margin="0,10,0,0" 
+                                HorizontalAlignment="Center" 
+                                Click="SaveButton_Click"/>
+
+                        <Button x:Name="SummarizeButton" 
+                                Content="Summarize Transcript" 
+                                Background="Violet" 
+                                Foreground="Black"
+                                Margin="0,5,0,10" 
+                                HorizontalAlignment="Center" 
+                                IsEnabled="False" 
+                                Click="SummarizeButton_Click"/>
+
+                        <TextBlock Text="Summary" FontWeight="SemiBold"/>
+                        <TextBox x:Name="SummaryTextBox" MinHeight="100" IsReadOnly="True" AcceptsReturn="True" TextWrapping="Wrap"/>
+                    </StackPanel>
+                </Border>
             </StackPanel>
         </ScrollViewer>
     </Grid>
