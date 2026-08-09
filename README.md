@@ -1,6 +1,8 @@
 # SimpVid Gist (WinUI 3)
 
-> Vibecoded with Gemini 3.5 Thinking
+> Semi-Vibecoded with Gemini 3.5 Thinking & 3.6 Flash Extended
+>
+> Synced with [SimpVid Gist WPF](https://github.com/RationalZombie/SimpVid_Gist_WPF) v1.3.3
 
 A lightweight YouTube video transcript extraction and AI-powered summarization tool developed on the **WinUI 3 (Windows App SDK)** platform. Seamlessly migrated from a classic WPF architecture, this project blends the modern Windows 11 design language with smooth, asynchronous network processing.
 
@@ -64,3 +66,7 @@ WinUI 3 removes the ability to define `Width` and `Height` directly within XAML.
 WPF's `MessageBox.Show` is no longer available in WinUI 3. This project encapsulates an asynchronous `ContentDialog` helper method named `ShowMessageDialogAsync`, which explicitly sets `XamlRoot = this.Content.XamlRoot` to comply with modern WinUI 3 modal dialog standards.
 3. **XAML Color Brush Specifications**:
 WinUI 3 cannot directly resolve literal color strings like `SkyBlue` or `Violet`. All button backgrounds on the interface have been refactored to use standard Hex color codes (e.g., Sky Blue `#87CEEB`, Violet `#EE82EE`).
+
+
+## Special Thanks
+[Linux.do](https://linux.do/)
