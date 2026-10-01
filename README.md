@@ -1,10 +1,20 @@
-# SimpVid Gist (WinUI 3)
+# SimpVid Gist (WinUI 3 Port)
 
-> Semi-Vibecoded with Gemini 3.5 Thinking & 3.6 Flash Extended
+> [!NOTE]
+> Semi-Vibecoded with Gemini
 >
 > Synced with [SimpVid Gist WPF](https://github.com/RationalZombie/SimpVid_Gist_WPF) v1.3.3
 
-A lightweight YouTube video transcript extraction and AI-powered summarization tool developed on the **WinUI 3 (Windows App SDK)** platform. Seamlessly migrated from a classic WPF architecture, this project blends the modern Windows 11 design language with smooth, asynchronous network processing.
+
+
+> [!IMPORTANT]
+> This WinUI 3 port has not been updating for several months. Use [SimpVid Gist WPF](https://github.com/RationalZombie/SimpVid_Gist_WPF) instead for the latest improvements.
+
+> [!TIP]
+> You have to prepare your own AI API key for summarization.
+
+## TL;DR
+A lightweight YouTube video transcript extraction and AI-powered summarization tool developed on the **WinUI 3 (Windows App SDK)** platform. **Seamlessly migrated from a classic WPF architecture**, this project blends the modern Windows 11 design language with smooth, asynchronous network processing. For more information, visit [the SimpVid Gist WPF official repository](https://github.com/RationalZombie/SimpVid_Gist_WPF)
 
 ---
 
@@ -25,8 +35,6 @@ A lightweight YouTube video transcript extraction and AI-powered summarization t
 * `System.Text.Json` (For high-performance parsing and streaming deserialization of AI JSON responses)
 * `Microsoft.UI.Xaml` (The core WinUI 3 UI component library)
 
-
-
 ---
 
 ## 📦 Getting Started
@@ -39,20 +47,6 @@ A lightweight YouTube video transcript extraction and AI-powered summarization t
 ### 2. AI API Configuration
 
 This tool supports any API endpoint that complies with the standard OpenAI format.
-
----
-
-## 📖 Usage Guide
-
-1. **Clone & Launch**: Open the solution in Visual Studio 2026 and run the project.
-2. **Extract Transcript**: Paste the YouTube video link into the **Video URL or ID** input box, then click the **Extract Transcript** button. Once extracted successfully, the complete transcript track will display in the bottom-left text box.
-3. **Configure AI Parameters**:
-* Enter the complete **Base URL** of your chosen AI provider.
-* Enter the corresponding **Model Name**.
-* Input your valid secret key into the **AI API key** password box.
-
-
-4. **Generate Summary**: Click the **Summarize Transcript** button. After a brief moment, a well-structured summary of the video's core content will appear in the bottom-right text box.
 
 ---
 
