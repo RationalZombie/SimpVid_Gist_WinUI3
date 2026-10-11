@@ -1,7 +1,7 @@
 # SimpVid Gist (WinUI 3 Port)
 
 > [!NOTE]
-> Semi-Vibecoded with Gemini
+> Both humans and Generative AI were involved in the development of this software.
 >
 > Synced with [SimpVid Gist WPF](https://github.com/RationalZombie/SimpVid_Gist_WPF) v1.4
 
