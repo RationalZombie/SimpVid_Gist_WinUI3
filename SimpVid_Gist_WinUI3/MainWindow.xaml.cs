@@ -150,7 +150,7 @@ namespace SimpVid_Gist_WinUI3
             {
                 SummarizeButton.IsEnabled = true;
                 ExtractButton.IsEnabled = true;
-                SummarizeButton.Content = "Summarize Transcript";
+                SummarizeButton.Content = "Re-summarize Transcript";
             }
         }
 
@@ -164,7 +164,7 @@ namespace SimpVid_Gist_WinUI3
                     new JsonObject
                     {
                         ["role"] = "system",
-                        ["content"] = "You are an expert AI summarizer. Summarize the following YouTube transcript into clear, structured paragraphs. You may use bullet points."
+                        ["content"] = "You are an expert AI summarizer. Summarize the following YouTube transcript into clear, structured paragraphs. You may use bullet points. IMPORTANT: The VERY FIRST line of your response MUST be a single short sentence (under 80 characters, no quotes, no colons) describing the overall topic of the video — this line will be used as the file name. Leave one blank line after it, then provide the detailed summary."
                     },
                     new JsonObject
                     {
@@ -301,6 +301,30 @@ namespace SimpVid_Gist_WinUI3
             string transcript = TranscriptTextBox.Text.Trim();
             string summary = SummaryTextBox.Text.Trim();
 
+            // Match WPF: the summary's first line is the overall video topic.
+            string overallInfo = "";
+            string detailedSummary = summary;
+            if (!string.IsNullOrEmpty(summary))
+            {
+                string[] lines = summary.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
+                overallInfo = lines[0].Trim();
+                if (lines.Length > 1)
+                {
+                    detailedSummary = string.Join(Environment.NewLine, lines, 1, lines.Length - 1).Trim();
+                }
+            }
+
+            string baseFileName = "SimpVid_Export_" + DateTime.Now.ToString("yyyyMMdd_HHmmss");
+            if (!string.IsNullOrWhiteSpace(overallInfo))
+            {
+                string safeName = overallInfo;
+                foreach (char c in Path.GetInvalidFileNameChars())
+                {
+                    safeName = safeName.Replace(c, '_');
+                }
+                baseFileName = safeName;
+            }
+
             var savePicker = new FileSavePicker();
             var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
             WinRT.Interop.InitializeWithWindow.Initialize(savePicker, hWnd);
@@ -308,7 +332,7 @@ namespace SimpVid_Gist_WinUI3
             savePicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
             savePicker.FileTypeChoices.Add("Text Files", new List<string>() { ".txt" });
             savePicker.FileTypeChoices.Add("All Files", new List<string>() { "*" });
-            savePicker.SuggestedFileName = "SimpVid_Export_" + DateTime.Now.ToString("yyyyMMdd_HHmmss");
+            savePicker.SuggestedFileName = baseFileName;
 
             StorageFile file = await savePicker.PickSaveFileAsync();
             if (file != null)
@@ -316,18 +340,20 @@ namespace SimpVid_Gist_WinUI3
                 try
                 {
                     StringBuilder fileContent = new StringBuilder();
+                    fileContent.AppendLine(string.IsNullOrWhiteSpace(overallInfo) ? "[No Overall Info]" : overallInfo);
+                    fileContent.AppendLine();
                     fileContent.AppendLine("========================================");
                     fileContent.AppendLine("           YOUTUBE TRANSCRIPT           ");
                     fileContent.AppendLine("========================================");
                     fileContent.AppendLine(string.IsNullOrWhiteSpace(transcript) ? "[No Transcript Available]" : transcript);
 
-                    if (!string.IsNullOrEmpty(summary))
+                    if (!string.IsNullOrEmpty(detailedSummary))
                     {
                         fileContent.AppendLine();
                         fileContent.AppendLine("========================================");
                         fileContent.AppendLine("               AI SUMMARY               ");
                         fileContent.AppendLine("========================================");
-                        fileContent.AppendLine(string.IsNullOrWhiteSpace(summary) ? "[No Summary Generated]" : summary);
+                        fileContent.AppendLine(string.IsNullOrWhiteSpace(detailedSummary) ? "[No Summary Generated]" : detailedSummary);
                     }
 
                     await FileIO.WriteTextAsync(file, fileContent.ToString());
