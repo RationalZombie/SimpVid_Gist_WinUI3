@@ -331,7 +331,6 @@ namespace SimpVid_Gist_WinUI3
 
             savePicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
             savePicker.FileTypeChoices.Add("Text Files", new List<string>() { ".txt" });
-            savePicker.FileTypeChoices.Add("All Files", new List<string>() { "*" });
             savePicker.SuggestedFileName = baseFileName;
 
             StorageFile file = await savePicker.PickSaveFileAsync();
