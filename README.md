@@ -5,6 +5,9 @@
 >
 > Synced with [SimpVid Gist WPF](https://github.com/RationalZombie/SimpVid_Gist_WPF) v1.4
 
+Here is a sample of this app running on Windows 11:
+
+<img width="392" height="1025" alt="A single page app with textboxes regarding the video link, extracted transcript and the summary." src="https://github.com/user-attachments/assets/8d0cd0cd-0d7e-4a44-808a-b254e1593a0f" />
 
 
 > [!TIP]
